@@ -161,7 +161,7 @@ if not video_link.startswith("http"):
 print(f"🔥 FINAL YOUTUBE LINK: {video_link} 🔥")
 
 # NAYA TOKEN YAHAN ADD HO GAYA HAI
-BOT_TOKEN = "8574888838:AAH9zsrSoW7T1PL9Wsf5E6vtnT4EzkBv1Cs" 
+BOT_TOKEN = "8810874592:AAGLhUAKPoE0fzdD3F8IWc_iK6t1z30wr6k" 
 
 message_text = f"READY_TO_UPLOAD\n{video_link}\n{title}\n{youtube_description}"
 
