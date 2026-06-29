@@ -9,19 +9,19 @@ urllib3_cn.allowed_gai_family = allowed_gai_family
 import moviepy.editor as mpe
 from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip, CompositeVideoClip, TextClip, concatenate_videoclips, vfx, afx, ImageClip, ColorClip
 
-# 👇 UPDATE: Changed from Hindi.ttf to standard English bold font for Shorts
-FONT_FILE = "Impact.ttf" # Aap Arial.ttf bhi use kar sakte hain
+# Using standard English bold font for Shorts
+FONT_FILE = "Impact.ttf" 
 
-full_text = os.environ.get('FULL_TEXT', 'Once upon a time in the universe.')
+full_text = os.environ.get('FULL_TEXT', 'Once upon a time in the dark.')
 chat_id = os.environ.get('CHAT_ID')
 pexels_key = os.environ.get('PEXELS_API_KEY')
 scenes_data = json.loads(os.environ.get('SCENES_DATA', '[]'))
-title = os.environ.get('TITLE', 'Cosmic Horror Mystery #Shorts')
-youtube_description = os.environ.get('YOUTUBE_DESC', 'Discover the terrifying mysteries of the universe.')
+title = os.environ.get('TITLE', 'Unexplained Creepy Mystery #Shorts')
+youtube_description = os.environ.get('YOUTUBE_DESC', 'Discover terrifying glitches and unsolved mysteries.')
 
 print(f"Total Scenes to render: {len(scenes_data)}")
 
-# 👇 UPDATE: Changed from Hindi Voice to US English Cosmic Horror Voice 👇
+# US English Voice for suspenseful storytelling
 subprocess.run(['edge-tts', '--voice', 'en-US-ChristopherNeural', '--text', full_text, '--write-media', 'voiceover.mp3'])
 
 voiceover = AudioFileClip("voiceover.mp3")
@@ -38,21 +38,22 @@ try:
 except:
     whoosh_sfx = pop_sfx = None
 
-# Space oriented viral colors
+# High-contrast viral colors for subtitles
 viral_colors = ['#FFD400', '#00FFFF', '#FFFFFF', '#39FF14']  
 
-# 🌟 SHORTS FORMAT (Vertical 1080x1920)
+# SHORTS FORMAT (Vertical 1080x1920)
 TARGET_W, TARGET_H = 1080, 1920
 
-# 2. Process Each Scene
+# Process Each Scene
 for i, scene in enumerate(scenes_data):
-    keyword = scene.get('keyword', 'universe')
+    # Fallback keyword updated for creepy/glitch theme
+    keyword = scene.get('keyword', 'creepy')
     text_line = scene.get('text', '')
     scene_duration = voiceover.duration * (len(text_line) / max(total_chars, 1))
     if scene_duration < 1.0: scene_duration = 1.0
     
     try:
-        # CLEAN PEXELS API CALL - NO MARKDOWN CORRUPTION ANYWHERE
+        # CLEAN PEXELS API CALL
         pexels_url = f"https://api.pexels.com/videos/search?query={keyword}&per_page=1&orientation=portrait"
         res = requests.get(pexels_url, headers=headers).json()
         video_url = res['videos'][0]['video_files'][0]['link']
@@ -124,7 +125,7 @@ except: pass
 final_audio = CompositeAudioClip(audio_clips)
 final_video = final_video.set_audio(final_audio)
 
-# 🌟 FAST RENDER & COMPRESSED SIZE
+# FAST RENDER & COMPRESSED SIZE
 print("Rendering Final COMPRESSED SHORTS Video...")
 final_video.write_videofile("final_video.mp4", fps=24, codec="libx264", audio_codec="aac", threads=2, bitrate="1500k", preset="ultrafast")
 
@@ -157,10 +158,10 @@ if not video_link.startswith("http"):
     except Exception: pass
 
 
-# 🌟 FINAL FIX: DIRECT TELEGRAM BOT INTEGRATION
+# FINAL FIX: DIRECT TELEGRAM BOT INTEGRATION
 print(f"🔥 FINAL YOUTUBE LINK: {video_link} 🔥")
 
-# NAYA TOKEN YAHAN ADD HO GAYA HAI
+# Telegram bot token mapping
 BOT_TOKEN = "8810874592:AAGLhUAKPoE0fzdD3F8IWc_iK6t1z30wr6k" 
 
 message_text = f"READY_TO_UPLOAD\n{video_link}\n{title}\n{youtube_description}"
